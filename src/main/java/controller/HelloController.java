@@ -1,32 +1,46 @@
 package com.example.taskmanagement.controller;
 
 import com.example.taskmanagement.model.Task;
+import com.example.taskmanagement.service.TaskService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 public class HelloController {
 
-    // API 1: Hello
+    private final TaskService taskService;
+
+
+    public HelloController(TaskService taskService) {
+        this.taskService = taskService;
+    }
+
+    @GetMapping("/number")
+    public int number(){
+        return 10;
+
+    }
+
     @GetMapping("/hello")
     public String hello() {
         return "Hello from Task Management System";
     }
 
-    // API 2: Task (JSON response)
     @GetMapping("/task")
     public Task getTask() {
-        return new Task(1L, "Learn Spring Boot", false);
+        return taskService.getTask();
     }
 
-    // API 3: Server status
-    @GetMapping("/status")
-    public String status() {
-        return "Server is running successfully";
-    }
-
-    @GetMapping("/done ")
+    @GetMapping("/done")
     public String done() {
-        return "The task is done ";
+        return taskService.markDone();
+    }
+
+    // ✅ FIXED METHOD
+    @GetMapping("/tasks")
+    public List<Task> getTasks() {
+        return taskService.getAllTasks();
     }
 }
