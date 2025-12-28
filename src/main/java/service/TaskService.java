@@ -9,21 +9,27 @@ import java.util.List;
 @Service
 public class TaskService {
 
+    private final List<Task> tasks = new ArrayList<>();
+    private long idCounter = 1;
+
+    // GET all tasks
+    public List<Task> getAllTasks() {
+        return tasks;
+    }
+
+    // GET single task
     public Task getTask() {
         return new Task(1L, "Learn Spring Boot", true);
     }
 
-    // ✅ FIXED METHOD
-    public List<Task> getAllTasks() {
-        List<Task> tasks = new ArrayList<>();
-
-        tasks.add(new Task(1L, "Learn Spring Boot", false));
-        tasks.add(new Task(2L, "Build REST APIs", true));
-        tasks.add(new Task(3L, "Learn Git & GitHub", false));
-
-        return tasks;
+    // ADD new task
+    public Task addTask(Task task) {
+        task.setId(idCounter++);
+        tasks.add(task);
+        return task;
     }
 
+    // Mark done (demo)
     public String markDone() {
         return "Task marked as done";
     }

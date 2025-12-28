@@ -7,7 +7,7 @@ public class Task {
     private boolean completed;
 
     public Task() {
-        // empty constructor (IMPORTANT)
+        // default constructor REQUIRED
     }
 
     public Task(Long id, String title, boolean completed) {
