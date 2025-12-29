@@ -33,4 +33,18 @@ public class TaskService {
     public String markDone() {
         return "Task marked as done";
     }
+    public Task updateTask(Long id, boolean completed) {
+        for (Task task : tasks) {
+            if (task.getId().equals(id)) {
+                task.setCompleted(completed);
+                return task;
+            }
+        }
+        return null; // task not found
+    }
+    // DELETE task by id
+    public boolean deleteTaskById(Long id) {
+        return tasks.removeIf(task -> task.getId().equals(id));
+    }
+
 }

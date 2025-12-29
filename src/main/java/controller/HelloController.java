@@ -6,6 +6,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.http.ResponseEntity;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+
+
 @RestController
 public class HelloController {
 
@@ -26,4 +35,29 @@ public class HelloController {
     public Task createTask(@RequestBody Task task) {
         return taskService.addTask(task);
     }
+    @PutMapping("/tasks/{id}")
+    public ResponseEntity<Task> updateTask(
+            @PathVariable Long id,
+            @RequestBody Task task
+    ) {
+        Task updatedTask = taskService.updateTask(id, task.isCompleted());
+
+        if (updatedTask == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(updatedTask);
+    }
+    @DeleteMapping("/tasks/{id}")
+    public String deleteTask(@PathVariable Long id) {
+        boolean deleted = taskService.deleteTaskById(id);
+
+        if (deleted) {
+            return "Task with id " + id + " deleted successfully";
+        } else {
+            return "Task with id " + id + " not found";
+        }
+    }
+
+
 }
