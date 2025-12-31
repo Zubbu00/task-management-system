@@ -2,6 +2,7 @@ package com.example.taskmanagement.controller;
 
 import com.example.taskmanagement.model.Task;
 import com.example.taskmanagement.service.TaskService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
 
 
 @RestController
@@ -49,15 +49,16 @@ public class HelloController {
         return ResponseEntity.ok(updatedTask);
     }
     @DeleteMapping("/tasks/{id}")
-    public String deleteTask(@PathVariable Long id) {
+    public ResponseEntity<String> deleteTask(@PathVariable Long id) {
         boolean deleted = taskService.deleteTaskById(id);
 
         if (deleted) {
-            return "Task with id " + id + " deleted successfully";
+            return ResponseEntity.ok("Task deleted successfully");
         } else {
-            return "Task with id " + id + " not found";
+            return ResponseEntity.status( HttpStatus.NOT_FOUND)
+                    .body("Task not found");
         }
     }
 
-
 }
+
